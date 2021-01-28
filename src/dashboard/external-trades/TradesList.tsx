@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import {
   IColumn,
   buildColumns,
@@ -88,6 +88,24 @@ export const TradesList: React.FunctionComponent = () => {
     setContextualMenuPros,
   ] = useState<IContextualMenuProps>();
   const [items, setItems] = useState(defaultItems);
+
+  // Version 1
+  // const [counter, setCounter] = useState(0);
+  // useEffect(() => {
+  //   const newItems = updateItemsRandomly(items);
+  //   setItems([...newItems]);
+  //   setTimeout(() => setCounter(counter + 1), updateIntervalInMilliSeconds);
+  // }, [counter, updateIntervalInMilliSeconds]);
+
+  //version 2
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newItems = updateItemsRandomly(items);
+      setItems([...newItems]);
+    }, updateIntervalInMilliSeconds);
+
+    return () => clearInterval(interval);
+  }, [updateIntervalInMilliSeconds]);
 
   const onFilterChange = (
     event?: React.ChangeEvent<HTMLInputElement> | undefined,
